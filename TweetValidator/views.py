@@ -13,6 +13,6 @@ def model_form_upload(request):
             return redirect('home')
     else:
         form = DocumentForm()
-    return render(request, 'model_form_upload.html', {
+    return render(request, 'simple_form.html', {
         'form': form
     })
