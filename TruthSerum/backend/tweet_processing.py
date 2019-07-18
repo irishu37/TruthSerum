@@ -1,6 +1,14 @@
 import io
 import sys
 
+def generate_link_to_tweet(path):
+   input_dict = sanitize(detect_text(path))
+
+   username = input_dict['username']
+   text = input_dict['text'].replace(" ", "%20")
+   print(username)
+   print("https://twitter.com/search?l=&q={}%20from%3A{}&src=typd".format(text, username))
+
 def detect_text(path):
     """Detects text in the file."""
     from google.cloud import vision
@@ -14,10 +22,9 @@ def detect_text(path):
     response = client.text_detection(image=image)
     texts = response.text_annotations
 
-    #print(texts[0].description.split("\n"))
-    #print(texts[0].description)
-    print(sanitize(texts[0].description.split("\n")))
-    return str(texts[0].description.split("\n"))
+
+    #print(sanitize(texts[0].description.split("\n")))
+    return texts[0].description.split("\n")
 
 def sanitize(text):
     lines_after_username = 0  # Counter to keep track of how far we are after finding the username line
@@ -31,7 +38,7 @@ def sanitize(text):
             continue
         if line[0] == "@" and lines_after_username == 0: # We have found the username line
             lines_after_username += 1
-            input_dictionary["username"] = line
+            input_dictionary["username"] = line[1:]
             continue
         if is_end_of_text(line):
             break
@@ -41,15 +48,24 @@ def sanitize(text):
 
 
 def is_end_of_text(line):
+    '''
+    Determines whether a line of text from a tweet image is no longer part of the body of the tweet.
+    '''
+
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9","0"]
+    blacklist = ["More", "Favorite", "Reply", "Retweet"]
+    line_list = line.split(" ")
     if (":" in line) and ("/" in line) and (any([char in digits for char in line])):
         return True
+    if (":" in line) and ("-" in line) and ("AM" in line or "PM" in line) and (any([char in digits for char in line])):
+        return True
     if ("Reply" in line) and ("Retweet" in line) and ("Favorite" in line) and ("More" in line):
+        return True
+    if all([word in blacklist for word in line_list]):
         return True
     return False
 
 
-
-
-detect_text(sys.argv[1])
+generate_link_to_tweet(sys.argv[1])
+#detect_text(sys.argv[1])
