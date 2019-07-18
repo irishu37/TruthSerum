@@ -1,8 +1,8 @@
 {% block content %}
 
-{% if url %}
+{% if tweet %}
   <h2>The tweet is real! Here's the link:</h2>
-  <a href={{ url }}>{{ url }}</a>
+  {{ tweet |safe }}
 {% else %}
   <h2>:( Sorry, the tweet isn't real.<h2>
 {% endif %}

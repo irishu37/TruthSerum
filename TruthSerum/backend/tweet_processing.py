@@ -24,8 +24,6 @@ def detect_text(path):
     response = client.text_detection(image=image)
     texts = response.text_annotations
 
-
-    #print(sanitize(texts[0].description.split("\n")))
     return texts[0].description.split("\n")
 
 def sanitize(text):
@@ -78,8 +76,8 @@ def get_embed_html(url):
                   access_token_key=access_token,
                   access_token_secret=access_secret)
     html = api.GetStatusOembed(url=url)
-    print(html)
+    return html['html']
 
-get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
+# get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
 # generate_link_to_tweet(sys.argv[1])
 #detect_text(sys.argv[1])
