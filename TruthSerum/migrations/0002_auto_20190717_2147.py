@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('TweetValidator', '0001_initial'),
+        ('TruthSerum', '0001_initial'),
     ]
 
     operations = [
