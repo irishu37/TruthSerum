@@ -1,7 +1,7 @@
 from django import forms
-from .models import Document
+from .models import ImageUpload
 
-class DocumentForm(forms.ModelForm):
+class ImageUploadForm(forms.ModelForm):
     class Meta:
-        model = Document
-        fields = ('document', )
+        model = ImageUpload
+        fields = ('file', )
