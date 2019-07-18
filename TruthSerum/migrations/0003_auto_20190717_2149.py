@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('TweetValidator', '0002_auto_20190717_2147'),
+        ('TruthSerum', '0002_auto_20190717_2147'),
     ]
 
     operations = [
