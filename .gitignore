@@ -1,3 +1,4 @@
 TweetValidator/__pycache__/
 media/
-__pycache__
+__pycache__/
+google-cloud-sdk/
