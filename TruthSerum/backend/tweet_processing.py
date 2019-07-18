@@ -2,14 +2,28 @@ import io
 import os
 import sys
 import twitter
+from web_scraper import find_first_tweet
 
 def generate_link_to_tweet(path):
-   input_dict = sanitize(detect_text(path))
 
-   username = input_dict['username']
-   text = input_dict['text'].replace(" ", "%20")
-   print(username)
-   print("https://twitter.com/search?l=&q={}%20from%3A{}&src=typd".format(text, username))
+    input_dict = sanitize(detect_text(path))
+
+    username = input_dict['username']
+    text = input_dict['text']
+    # if len(text.replace(" ", "")) + len(username) > 195:
+    #     #     text = reformat_text(text, username)
+    if len(text.replace(" ", "")) + len(username) > 170:
+        text = reformat_text(text, username)
+
+    text = text.replace(" ", "%20")
+    URL = "https://twitter.com/search?l=&q={}%20from%3A{}&src=typd".format(text, username)
+    print(find_first_tweet(URL))
+
+
+
+
+
+
 
 def detect_text(path):
     """Detects text in the file."""
@@ -31,7 +45,7 @@ def sanitize(text):
 
     input_dictionary = {"text": ""}
     for line in text:
-        if line == "Following" or line == '':
+        if line == "Following" or line == "Follow" or line == '':
             continue
         if lines_after_username == 1 and line.startswith("Replying to"):
             # If the line after the username begins with "Replying to", ignore it
@@ -53,18 +67,30 @@ def is_end_of_text(line):
     '''
 
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9","0"]
+    digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     blacklist = ["More", "Favorite", "Reply", "Retweet"]
     line_list = line.split(" ")
     if (":" in line) and ("/" in line) and (any([char in digits for char in line])):
         return True
-    if (":" in line) and ("-" in line) and ("AM" in line or "PM" in line) and (any([char in digits for char in line])):
+    if (":" in line) and (("AM" in line) or ("PM" in line)) and (any([char in digits for char in line])):
         return True
     if ("Reply" in line) and ("Retweet" in line) and ("Favorite" in line) and ("More" in line):
         return True
     if all([word in blacklist for word in line_list]):
         return True
     return False
+def reformat_text(text, username):
+    num_letters = 0
+    new_text = ""
+    for i in range(len(text)):
+        char = text[i]
+        if num_letters + len(username) > 170:
+            new_text = text[0:i]
+            break
+        if char != " ":
+            num_letters += 1
+    return new_text
+
 
 def get_embed_html(url):
     consumer_token = os.environ['TWT_CONSUMER_TOKEN']
@@ -79,5 +105,5 @@ def get_embed_html(url):
     return html['html']
 
 # get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
-# generate_link_to_tweet(sys.argv[1])
+generate_link_to_tweet(sys.argv[1])
 #detect_text(sys.argv[1])
