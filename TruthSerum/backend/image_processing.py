@@ -1,5 +1,7 @@
 import io
+import os
 import sys
+import twitter
 
 def detect_text(path):
     """Detects text in the file."""
@@ -49,7 +51,17 @@ def is_end_of_text(line):
         return True
     return False
 
+def get_embed_html(url):
+    consumer_token = os.environ['TWT_CONSUMER_TOKEN']
+    consumer_secret = os.environ['TWT_CONSUMER_SECRET']
+    access_token = os.environ['TWT_ACCESS_TOKEN']
+    access_secret = os.environ['TWT_ACCESS_SECRET']
+    api = twitter.Api(consumer_key=consumer_token,
+                  consumer_secret=consumer_secret,
+                  access_token_key=access_token,
+                  access_token_secret=access_secret)
+    html = api.GetStatusOembed(url=url)
+    print(html)
 
-
-
-detect_text(sys.argv[1])
+get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
+# detect_text(sys.argv[1])
