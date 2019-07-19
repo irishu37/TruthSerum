@@ -2,7 +2,7 @@ import io
 import os
 import sys
 import twitter
-from web_scraper import find_first_tweet
+from .web_scraper import find_first_tweet
 
 def generate_link_to_tweet(path):
 
@@ -18,12 +18,6 @@ def generate_link_to_tweet(path):
     text = text.replace(" ", "%20")
     URL = "https://twitter.com/search?l=&q={}%20from%3A{}&src=typd".format(text, username)
     print(find_first_tweet(URL))
-
-
-
-
-
-
 
 def detect_text(path):
     """Detects text in the file."""
@@ -105,5 +99,5 @@ def get_embed_html(url):
     return html['html']
 
 # get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
-generate_link_to_tweet(sys.argv[1])
+# generate_link_to_tweet(sys.argv[1])
 #detect_text(sys.argv[1])

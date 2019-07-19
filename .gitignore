@@ -3,4 +3,5 @@ media/
 __pycache__/
 google-cloud-sdk/
 *.pyc 
+node_modules/
 

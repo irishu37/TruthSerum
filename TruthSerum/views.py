@@ -2,7 +2,7 @@ import os
 import time
 
 from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 
 from .forms import ImageUploadForm
@@ -18,14 +18,16 @@ def handle_uploaded_file(file):
     return filepath
 
 def index(request):
-    if request.method == 'POST' and request.FILES['file']:
-        filepath = handle_uploaded_file(request.FILES['file'])
-        html = get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
-        return render(request, 'result.html', {
-            'tweet': html,
-        })
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            print(str(request.FILES))
+            filepath = handle_uploaded_file(request.FILES['file'])
+            html = get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
+            return render(request, 'result.html', {
+                'tweet': html,
+            })
+        return HttpResponseBadRequest("Image upload form not valid.")
     else:
         form = ImageUploadForm()
-    return render(request, 'simple_form.html', {
-        'form': form
-    })
+    return render(request, 'simple_form.html')
