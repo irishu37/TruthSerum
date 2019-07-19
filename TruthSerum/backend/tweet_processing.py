@@ -2,8 +2,6 @@ import io
 import os
 import sys
 import twitter
-import execnet
-import subprocess
 from .web_scraper import find_first_tweet
 
 def generate_link_to_tweet(path):

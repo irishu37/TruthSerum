@@ -1,62 +1,80 @@
 <!DOCTYPE html>
 
 <head>
-    {% load static %}
-    <script src="{% static 'js/dropzone.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/dropzone.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  {% load static %}
+  <script src="{% static 'js/dropzone.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/dropzone.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <img src="static/images/NavbarLogo.png" width="200" height="100">
-            </a>
-
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
+  <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <img src="static/images/NavbarLogo.png" width="200" height="100">
+      </a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  </nav>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-three-fifths is-centered has-vertically-aligned-content">
+          <div class="content has-text-left">
+            <h1>The truth you deserve.</h1>
+            <p>Everyday trolls post fake Tweets to spread rumors that fit their agenda.
+              The internet is slowing being filled with lies, and we are here to combat these biased
+              deceptions.</p>
+          </div>
         </div>
-    </nav>
-    <section class="section">
-        <div class="container">
-            <div class="columns is-vcentered">
-                <div class="column is-three-fifths is-centered has-vertically-aligned-content">
-                    <div class="content has-text-left">
-                        <h1>The truth you deserve.</h1>
-                        <p>Everyday trolls post fake Tweets to spread rumors that fit their agenda.
-                            The internet is slowing being filled with lies, and we are here to combat these biased
-                            deceptions.</p>
-                    </div>
-                </div>
-                <div class="column is-centered has-vertically-aligned-content">
-                    <div class="content">
-                        <form method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="file">
-                                <label class="file-label">
-                                    {{ form.as_p }}
-                                    <span class="file-cta">
-                                        <span class="file-icon">
-                                            <i class="fas fa-upload"></i>
-                                        </span>
-                                        <span class="file-label">
-                                            Choose a file…
-                                        </span>
-                                    </span>
-                                </label>
-                            </div>
-                            <button type="submit">Upload</button>
-                        </form>
-                    </div>
+        <div class="column is-centered has-vertically-aligned-content">
+          <div class="content has-text-centered" id="loading" style="display:none;">
+            <img src="{% static 'images/loading.gif' %}" width="100">
+            <h3>Injecting truth serum...</h3>
+          </div>
+          <div class="content" id="upload_content">
+            <form method="post" id="upload_form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="file is-boxed is-large is-centered">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="file" accept="image/*" required>
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose a file…
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <br />
+              <div class="buttons is-centered">
+                <button class="button is-large is-centered" type="submit">Upload</button>
+              </div>
+            </form>
+          </div>
 
-                </div>
-            </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </body>
+
+<script>
+  $(document).ready(function () {
+    $('#upload_form').submit(function () {
+      $('#loading').show()
+      $('#upload_content').hide()
+      return true;
+    })
+  })
+</script>

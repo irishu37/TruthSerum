@@ -3,3 +3,22 @@
     flex-direction: column;
     justify-content: center;
 }
+
+.button:active, .button:focus {
+    color: white;
+}
+
+.button {
+    background: linear-gradient(213.37deg, #B066FE -8.36%, #63E2FF 137.22%);
+    border: 0;
+    color: white;
+}
+
+.button:hover {
+    background: linear-gradient(213.37deg, rgb(155, 90, 224) -8.36%, rgb(86, 199, 224) 137.22%);
+    color: white;
+}
+
+.navbar-item img {
+    margin: 15px;
+}
