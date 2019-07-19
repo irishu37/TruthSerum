@@ -8,15 +8,18 @@ def generate_link_to_tweet(path):
 
     input_dict = sanitize(detect_text(path))
 
-    username = input_dict['username']
+    username = input_dict.get('username')
     text = input_dict['text']
     # if len(text.replace(" ", "")) + len(username) > 195:
     #     #     text = reformat_text(text, username)
-    if len(text.replace(" ", "")) + len(username) > 170:
-        text = reformat_text(text, username)
+    if len(text.replace(" ", "")) > 160:
+        text = reformat_text(text)
 
     text = text.replace(" ", "%20")
-    URL = "https://twitter.com/search?l=&q={}%20from%3A{}&src=typd".format(text, username)
+    if username:
+        URL = "https://twitter.com/search?l=&q={}%20from%3A{}&src=typd".format(text, username)
+    else:
+        URL = "https://twitter.com/search?l=&q={}&src=typd".format(text)
     print(find_first_tweet(URL))
 
 def detect_text(path):
@@ -38,7 +41,12 @@ def sanitize(text):
     lines_after_username = 0  # Counter to keep track of how far we are after finding the username line
 
     input_dictionary = {"text": ""}
+    line_num = 0
     for line in text:
+        print(line)
+        if line_num == 0 and "@" in line:
+            lines_after_username += 1
+            continue
         if line == "Following" or line == "Follow" or line == '':
             continue
         if lines_after_username == 1 and line.startswith("Replying to"):
@@ -52,13 +60,15 @@ def sanitize(text):
             break
         elif lines_after_username > 0:
             input_dictionary["text"] += " " + line
+        line_num += 1
+    print(input_dictionary)
     return input_dictionary
 
 
 def is_end_of_text(line):
-    '''
+    """
     Determines whether a line of text from a tweet image is no longer part of the body of the tweet.
-    '''
+    """
 
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
@@ -70,15 +80,25 @@ def is_end_of_text(line):
         return True
     if ("Reply" in line) and ("Retweet" in line) and ("Favorite" in line) and ("More" in line):
         return True
+    if all([char in digits for char in line]):
+        print(line)
+        print("got to digits")
+        return True
     if all([word in blacklist for word in line_list]):
         return True
     return False
-def reformat_text(text, username):
+
+def reformat_text(text):
+    """
+    Due to strange constraints on the number of words in the search parameter,
+    this function truncates the text at the next space character after 170
+    characters (not including spaces)
+    """
     num_letters = 0
     new_text = ""
     for i in range(len(text)):
         char = text[i]
-        if num_letters + len(username) > 170:
+        if num_letters > 160 and char == " ":
             new_text = text[0:i]
             break
         if char != " ":

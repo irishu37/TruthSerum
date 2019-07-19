@@ -6,15 +6,30 @@ from selenium.webdriver.common.by import By
 
 
 def find_first_tweet(URL):
+        print(URL)
+        # Changing options to run chrome headless and not to load image assets
+        chromeOptions = webdriver.ChromeOptions()
+        prefs = {'profile.managed_default_content_settings.images': 2}
+        chromeOptions.add_experimental_option("prefs", prefs)
+        chromeOptions.add_argument('headless');
+        driver = webdriver.Chrome(chrome_options=chromeOptions)
 
-        driver = webdriver.Chrome()
+        # driver = webdriver.PhantomJS()
+
         driver.get(URL)
         driver.execute_script("window.stop()")
-        elem = driver.find_element_by_css_selector("div[data-permalink-path]")
-        path = elem.get_attribute("data-permalink-path")
+        try:
+            elem = driver.find_element_by_css_selector("div[data-permalink-path]")
+            print(elem)
+            path = elem.get_attribute("data-permalink-path")
+            driver.quit()
 
-        full_path = "https://www.twitter.com" + path
-        webbrowser.open(full_path)
+            full_path = "https://www.twitter.com" + path
+            webbrowser.open(full_path)
+        except:
+            print("No tweet found")
+            return None
+
 
         return full_path
 
