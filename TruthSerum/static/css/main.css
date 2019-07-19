@@ -20,15 +20,23 @@
 }
 
 .navbar-item img {
-    margin: 15px 35px;
+    width: 100%;
+    margin: 7%;
+    margin-left: 15%;
 }
 
 #upload_content {
-    margin: 100px;
+    /* margin-top: 40%; */
+    padding-top: 20%;
 }
 
-.level-item img {
-    margin: 10px 7px;
+.icons img {
+    margin-right: 2%;
+    width: 5%;
+}
+
+.icons a {
+    margin-left: 3%;
 }
 
 #tweet {
@@ -41,9 +49,16 @@
 }
 
 #main_page {
-    padding: 50px 60px;
+    padding: 15% 10%;
+    padding-bottom: 0;
 }
 
 #main_page img {
-    margin: 30px 20px;
+    margin: 10% 5%;
+    margin-bottom: 0;
+}
+
+#result {
+    padding: 28% 10%;
+    /* padding-bottom: 0; */
 }
