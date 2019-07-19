@@ -20,5 +20,30 @@
 }
 
 .navbar-item img {
-    margin: 15px;
+    margin: 15px 35px;
+}
+
+#upload_content {
+    margin: 100px;
+}
+
+.level-item img {
+    margin: 10px 7px;
+}
+
+#tweet {
+    margin: 50px 0;
+}
+
+.content h1 {
+    font-weight: 700;
+    color: black;
+}
+
+#main_page {
+    padding: 50px 60px;
+}
+
+#main_page img {
+    margin: 30px 20px;
 }

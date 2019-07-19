@@ -29,7 +29,7 @@
     <div class="container">
       <div class="columns is-vcentered">
         <div class="column is-two-fifths is-centered has-vertically-aligned-content">
-          <div class="content has-text-centered">
+          <div class="content has-text-centered" id="tweet">
             {% if tweet %}
             {{ tweet |safe}}
             {% elif image %}
@@ -56,9 +56,16 @@
                 </div>
               </div>
             </nav>
-            <nav class="navbar">
-              <div class="navbar-end">
-                <div class="navbar-item">
+            <nav class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <img src="{% static 'images/twitterlogo.png' %}" width="40">
+                  <img src="{% static 'images/fblogo.png' %}" width="40">
+                  <img src="{% static 'images/dropboxlogo.png' %}" width="40">
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
                   <a href="/" class="button">Test Another Tweet</a>
                 </div>
               </div>

@@ -28,11 +28,18 @@
     <div class="container">
       <div class="columns is-vcentered">
         <div class="column is-three-fifths is-centered has-vertically-aligned-content">
-          <div class="content has-text-left">
+          <div class="content has-text-left" id="main_page">
             <h1>The truth you deserve.</h1>
             <p>Everyday trolls post fake Tweets to spread rumors that fit their agenda.
-              The internet is slowing being filled with lies, and we are here to combat these biased
+              The internet is slowly being filled with lies, and we are here to combat these biased
               deceptions.</p>
+            <nav class="level">
+              <div class="level-item">
+                <img src="{% static 'images/today.png' %}" width="200">
+                <img src="{% static 'images/month.png' %}" width="200">
+                <img src="{% static 'images/year.png' %}" width="200">
+              </div>
+            </nav>
           </div>
         </div>
         <div class="column is-centered has-vertically-aligned-content">
@@ -40,12 +47,12 @@
             <img src="{% static 'images/loading.gif' %}" width="100">
             <h3>Injecting truth serum...</h3>
           </div>
-          <div class="content" id="upload_content">
+          <div class="content has-text-centered" id="upload_content">
             <form method="post" id="upload_form" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="file is-boxed is-large is-centered">
                 <label class="file-label">
-                  <input class="file-input" type="file" name="file" accept="image/*" required>
+                  <input class="file-input" id="file-upload" type="file" name="file" accept="image/*" required>
                   <span class="file-cta">
                     <span class="file-icon">
                       <i class="fas fa-upload"></i>
@@ -56,6 +63,8 @@
                   </span>
                 </label>
               </div>
+              <br />
+              <label id="file-upload-filename"></label>
               <br />
               <div class="buttons is-centered">
                 <button class="button is-large is-centered" type="submit">Upload</button>
@@ -72,9 +81,15 @@
 <script>
   $(document).ready(function () {
     $('#upload_form').submit(function () {
-      $('#loading').show()
-      $('#upload_content').hide()
+      $('#loading').show();
+      $('#upload_content').hide();
       return true;
-    })
-  })
+    });
+
+    $('#file-upload').change(function () {
+      $('#file-upload-filename').empty();
+      var filename = $('#file-upload')[0].files[0].name;
+      $('#file-upload-filename').text(filename);
+    });
+  });
 </script>
