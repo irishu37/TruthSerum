@@ -20,13 +20,12 @@
 }
 
 .navbar-item img {
-    width: 100%;
+    width: 100;
     margin: 7%;
     margin-left: 15%;
 }
 
 #upload_content {
-    /* margin-top: 40%; */
     padding-top: 20%;
 }
 

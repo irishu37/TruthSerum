@@ -82,6 +82,8 @@ def is_end_of_text(line):
         return True
     if ("Reply" in line) and ("Retweet" in line) and ("Favorite" in line) and ("More" in line):
         return True
+    if ("@" in line) and ("/" in line) and any([char in digits for char in line]):
+        return True
     if all([char in digits for char in line]):
         print(line)
         print("got to digits")
