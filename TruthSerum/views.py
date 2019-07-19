@@ -23,11 +23,15 @@ def index(request):
         if form.is_valid():
             print(str(request.FILES))
             filepath = handle_uploaded_file(request.FILES['file'])
-            html = get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
+            link = generate_link_to_tweet(filepath)
+            if link:
+                return render(request, 'result.html', {
+                    'tweet': get_embed_html(link),
+                })
             return render(request, 'result.html', {
-                'tweet': html,
-            })
+                'tweet': None, })
+        
         return HttpResponseBadRequest("Image upload form not valid.")
     else:
         form = ImageUploadForm()
-    return render(request, 'simple_form.html')
+    return render(request, 'simple_form.html', {'form': form})
