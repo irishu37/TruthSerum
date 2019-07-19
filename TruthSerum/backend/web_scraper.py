@@ -1,4 +1,5 @@
 import selenium
+import signal
 import webbrowser
 
 from selenium import webdriver
@@ -20,14 +21,16 @@ def find_first_tweet(URL):
             elem = driver.find_element_by_css_selector("div[data-permalink-path]")
             print(elem)
             path = elem.get_attribute("data-permalink-path")
-            driver.quit()
-
+            print("Got here")
             full_path = "https://www.twitter.com" + path
         except:
             print("No tweet found")
+            driver.service.process.send_signal(signal.SIGTERM)
+            driver.quit()
             return None
 
-
+        driver.service.process.send_signal(signal.SIGTERM)
+        driver.quit()
         return full_path
 
 
