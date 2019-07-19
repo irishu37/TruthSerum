@@ -53,5 +53,5 @@ def success(request):
 def failure(request):
     return render(request, 'result.html', {
         'tweet': None,
-        'image': 'media/2019_07_19/elonmusktweet_5j0Ldhf.jpg',
+        'image': 'static/images/elonmusktweet.jpg',
     })
