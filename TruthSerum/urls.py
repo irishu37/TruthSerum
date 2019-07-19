@@ -23,6 +23,8 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('dummy', views.dummy, name='dummy'),
+    path('success', views.success, name='success'),
+    path('failure', views.failure, name='failure'),
     path('admin/', admin.site.urls),
 ]
 

@@ -1,10 +1,78 @@
-{% block content %}
+<!DOCTYPE html>
 
-{% if tweet %}
-  <h2>The tweet is real! Here's the link:</h2>
-  {{ tweet |safe }}
-{% else %}
-  <h2>:( Sorry, the tweet isn't real.<h2>
-{% endif %}
+<head>
+  {% load static %}
+  <script src="{% static 'js/dropzone.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/dropzone.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
 
-{% endblock %}
+<body>
+  <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <img src="static/images/NavbarLogo.png" width="200" height="100">
+      </a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-two-fifths is-centered has-vertically-aligned-content">
+          <div class="content has-text-centered" id="tweet">
+            {% if tweet %}
+            {{ tweet |safe}}
+            {% elif image %}
+            <img src='{{ image }}' />
+            {% endif %}
+          </div>
+        </div>
+        <div class="column is-centered has-vertically-aligned-content">
+          <div class="content has-text-left">
+            <nav class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <img src="{% static 'images/Logo.png' %}" width="80" />
+                </div>
+                <div class="level-item">
+                  {% if tweet %}
+                  <h1>This tweet is real!</h1>
+                  {% else %}
+                  <div>
+                    <h1>We could not find this tweet.</h1>
+                    <p>Do not be deceived.</p>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </nav>
+            <nav class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <img src="{% static 'images/twitterlogo.png' %}" width="40">
+                  <img src="{% static 'images/fblogo.png' %}" width="40">
+                  <img src="{% static 'images/dropboxlogo.png' %}" width="40">
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <a href="/" class="button">Test Another Tweet</a>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
