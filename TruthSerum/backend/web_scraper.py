@@ -14,10 +14,8 @@ def find_first_tweet(URL):
         chromeOptions.add_argument('headless');
         driver = webdriver.Chrome(chrome_options=chromeOptions)
 
-        # driver = webdriver.PhantomJS()
 
         driver.get(URL)
-        driver.execute_script("window.stop()")
         try:
             elem = driver.find_element_by_css_selector("div[data-permalink-path]")
             print(elem)
@@ -25,7 +23,6 @@ def find_first_tweet(URL):
             driver.quit()
 
             full_path = "https://www.twitter.com" + path
-            webbrowser.open(full_path)
         except:
             print("No tweet found")
             return None

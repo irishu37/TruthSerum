@@ -25,12 +25,13 @@ def index(request):
             filepath = handle_uploaded_file(request.FILES['file'])
             link = generate_link_to_tweet(filepath)
             if link:
+                html = get_embed_html(link)
                 return render(request, 'result.html', {
-                    'tweet': get_embed_html(link),
+                    'tweet': html,
                 })
             return render(request, 'result.html', {
                 'tweet': None, })
-        
+
         return HttpResponseBadRequest("Image upload form not valid.")
     else:
         form = ImageUploadForm()

@@ -2,6 +2,8 @@ import io
 import os
 import sys
 import twitter
+import execnet
+import subprocess
 from .web_scraper import find_first_tweet
 
 def generate_link_to_tweet(path):
@@ -10,8 +12,7 @@ def generate_link_to_tweet(path):
 
     username = input_dict.get('username')
     text = input_dict['text']
-    # if len(text.replace(" ", "")) + len(username) > 195:
-    #     #     text = reformat_text(text, username)
+
     if len(text.replace(" ", "")) > 160:
         text = reformat_text(text)
 
@@ -20,7 +21,8 @@ def generate_link_to_tweet(path):
         URL = "https://twitter.com/search?l=&q={}%20from%3A{}&src=typd".format(text, username)
     else:
         URL = "https://twitter.com/search?l=&q={}&src=typd".format(text)
-    print(find_first_tweet(URL))
+
+    return find_first_tweet(URL)
 
 def detect_text(path):
     """Detects text in the file."""
@@ -36,6 +38,8 @@ def detect_text(path):
     texts = response.text_annotations
 
     return texts[0].description.split("\n")
+
+
 
 def sanitize(text):
     lines_after_username = 0  # Counter to keep track of how far we are after finding the username line
@@ -106,7 +110,7 @@ def reformat_text(text):
     return new_text
 
 
-def get_embed_html(url):
+def get_embed_html(link):
     consumer_token = os.environ['TWT_CONSUMER_TOKEN']
     consumer_secret = os.environ['TWT_CONSUMER_SECRET']
     access_token = os.environ['TWT_ACCESS_TOKEN']
@@ -115,7 +119,8 @@ def get_embed_html(url):
                   consumer_secret=consumer_secret,
                   access_token_key=access_token,
                   access_token_secret=access_secret)
-    html = api.GetStatusOembed(url=url)
+    print("This is link: " + link)
+    html = api.GetStatusOembed(url=link)
     return html['html']
 
 # get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
