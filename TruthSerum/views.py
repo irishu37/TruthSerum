@@ -4,6 +4,7 @@ import time
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from .forms import ImageUploadForm
 from .backend.tweet_processing import generate_link_to_tweet, get_embed_html
@@ -21,13 +22,16 @@ def index(request):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            print(str(request.FILES))
             filepath = handle_uploaded_file(request.FILES['file'])
             html = get_embed_html('https://twitter.com/BobWulff/status/1151642928286187525')
+            # return redirect(reverse('dummy'))
             return render(request, 'result.html', {
                 'tweet': html,
             })
         return HttpResponseBadRequest("Image upload form not valid.")
     else:
         form = ImageUploadForm()
-    return render(request, 'simple_form.html')
+    return render(request, 'simple_form.html', {'form': form})
+
+def dummy(request):
+    return render(request, 'dummy.html')

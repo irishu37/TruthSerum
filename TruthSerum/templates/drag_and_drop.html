@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+  {% load static %}
+  <script src="{% static 'js/dropzone.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/dropzone.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <script>
+    // Dropzone.options.myDropzone = { paramName: "file", maxFilesize: 2, }
+    // Dropzone.options.myDropzone = {
+
+    //   autoProcessQueue: false,
+
+    //   init: function () {
+    //     var submitButton = document.getElementById('button');
+    //     myDropzone = this;
+
+    //     submitButton.addEventListener("click", function () {
+    //       myDropzone.processQueue();
+    //     });
+
+    //     this.on("addedfile", function () {
+    //       $("#my_dropzone").submit();
+    //     });
+    //   }
+    // };
+  </script>
+</head>
+
+<body>
+  <div class="columns">
+    <div class="column">
+
+    </div>
+    <div class="column">
+      <form action="{% url 'index' %}" method="POST" id="my_dropzone" class="dropzone" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="fallback">
+          <h3>Your browser is not supported.</h3>
+          <strong>
+            <a href="https://browser-update.org/update.html" target="_blank">Click here for instructions on how to
+              update
+              it.</a>
+          </strong>
+          <p>You can still try to upload your pictures through this form: </p>
+          <p>
+            <input name="file" type="file" multiple />
+            <input type="submit" value="Upload" />
+          </p>
+        </div>
+        <button type="submit" id="button" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+
+</body>
